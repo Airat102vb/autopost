@@ -9,11 +9,11 @@ function simplePost($inquiry){
 }
 
 //Загрузка фото на сервер
-function uploadPhotoToServer($groupAndAlbum ,$vkToken, $version, $pathToJPG) {
+function uploadPhotoToServer($groupAndAlbum, $version, $pathToJPG) {
 
     // Загрузка изображения на сервер
     $apiPost="https://api.vk.com/method/photos.getUploadServer?";
-    $response2=file_get_contents($apiPost.$groupAndAlbum.$vkToken.$version);//запрос, получаю адрес сервера для загрузки
+    $response2=file_get_contents($apiPost.$groupAndAlbum.$version);//запрос, получаю адрес сервера для загрузки
     $rs=json_decode($response2);
     $uurl=$rs->response->upload_url; //получаю адрес сервера для загрузки изображения из ответа
     $postparam['file1']= new CURLFile(realpath($pathToJPG),'image/jpg','pct-mixr.jpg');
@@ -32,7 +32,7 @@ function uploadPhotoToServer($groupAndAlbum ,$vkToken, $version, $pathToJPG) {
     @$fhash=$json->hash;
 
 //save photo photos.save
-    $saveApiPhoto="https://api.vk.com/method/photos.save?". $groupAndAlbum ."&server=".$fserver."&photos_list=".$fphoto."&aid=".$faid."&hash=".$fhash.$vkToken.$version;
+    $saveApiPhoto="https://api.vk.com/method/photos.save?". $groupAndAlbum ."&server=".$fserver."&photos_list=".$fphoto."&aid=".$faid."&hash=".$fhash.$version;
     $ch=curl_init($saveApiPhoto);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
